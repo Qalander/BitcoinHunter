@@ -1,4 +1,6 @@
-import time
+
+# All this crap just to move a file to a different location:
+""" import time
 import shutil
 
 fileToArchive = time.strftime("Date_%Y_%m_%d_@_Time_%Hh_%Mm_%Ss")
@@ -20,4 +22,4 @@ with open('seedlist.txt','r') as firstfile, open(fileToArchive2,'a+') as secondf
 
 # now move the file to archive
 newPath = shutil.move(fileToArchive2, 'archives')
-
+ """
