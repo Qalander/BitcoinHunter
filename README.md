@@ -11,4 +11,6 @@ step 3) Create a WordList you wish to test, save it locally as MyWordList.txt, (
 
 step 4) > python hunter.py  _____ (OR > python3 hunter.py)
 
-all your results files will be in the gitignore, so they won't shared back to github (private keys etc)
+all your results files will be in the gitignore, so they won't shared back to github (private keys, seedlists etc)
+
+* This is the first program I've ever written, so please ask if you have questions
