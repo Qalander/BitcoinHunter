@@ -18,23 +18,40 @@ except IOError:
 csvfile = open('btc_balance_sorted.csv', 'r') # You will need to save the CSV locally and rename this if different
 AddressData = csvfile.readlines()   #This reads the data out of the file and saves it as variable AddressData
 
-filename = 1 #for simplicity our first file is called 1.txt
-SplitSize = 32000000       # How many lines the new file should have - 1,000,000 makes an 87MB file (under github limit), 32million covers every known account as of Feb 1st
-for i in range(len(AddressData)):
-    if i % SplitSize == 0:                                        
-         open(str(filename) + '.txt', 'w+').writelines(AddressData[i:i+SplitSize])
-         filename += 1
+# check to see if 1.txt exists, if not create it
+filelocated = 0
 
-csvfile.close()         # Always be closing!
+def does_file_already_exist():
+    try:
+        f = open("1.txt")
+        print (" text version of database file located ")
+        filelocated = 1
+        return filelocated
+    except IOError:
+        print("generating simplified txt file of database")
+        filename = 1 #for simplicity our first file is called 1.txt
+        SplitSize = 32000000       # How many lines the new file should have - 1,000,000 makes an 87MB file (under github limit), 32million covers every known account as of Feb 1st
+        for i in range(len(AddressData)):
+            if i % SplitSize == 0:                                        
+                open(str(filename) + '.txt', 'w+').writelines(AddressData[i:i+SplitSize])
+                filename += 1
+        csvfile.close()         # Always be closing!
+    finally:
+        print("generated.")
+
+filelocated = does_file_already_exist()
+
 
 ### Strip the balance, last block address and RIPEMD160 (column 2,3,4 ) data leaving just the raw addresses of column 1
-f = open("1.txt", "r")
-g = open("bitcoin1.txt", "w")  # Name of the clean file.
+if filelocated == 0:
+    f = open("1.txt", "r")          # so this is a txt file exact copy of the csv file, but it has 4 columns and is very large
+    g = open("bitcoin1.txt", "w")   # Name of the clean file with just the address columns only.
 
-for line in f:
-    if line.strip():
-        g.write("\t".join(line.split(",")[:1]) + "\n")
+    for line in f:
+        if line.strip():
+            g.write("\t".join(line.split(",")[:1]) + "\n")
 
-f.close()
-g.close()
+    f.close()
+    g.close()
 
+# END SPLITTER #

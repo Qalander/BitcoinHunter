@@ -4,6 +4,7 @@
 import itertools as it
 import time
 import math
+import shutil
 
 ## ## ## STEP 1: Get Inputs, includes a 3 second timeout, and using default name if enter is pressed without typing ## ## ## -----------------------------------------------
 inputFileName = ""
@@ -66,8 +67,8 @@ print ("There will be a total of ", totalSeeds, "seed combinations to create, ta
 
 
 # outputFileName = input("which .txt file to save permutations to? ")
-
-def getOutputFileName():
+#
+""" def getOutputFileName():
     print()
     outputFileName = ""
     while len(outputFileName) < 1: 
@@ -75,19 +76,27 @@ def getOutputFileName():
         if outputFileName == "": outputFileName = "seedlist.txt"
     return outputFileName
 
-oName = getOutputFileName()
+oName = getOutputFileName() """
 
-# this section just checks you've put the .txt at the end of the filename as its a common habit to forget
+
+
+""" # this section just checks you've put the .txt at the end of the filename as its a common habit to forget// ** EDIT, as we are arching the files remove the ability to rename seedlist
 nameCheck = oName[-4:]      # take the last 4 char of the string
 if nameCheck != ".txt":             # check the 4 chars are .txt, otherwise it has not been input
     oName = oName + ".txt"      # add the .txt if it has been forgotten
 open(oName, 'a+').close()           # create the blank file for writing later
+"""
+
+# sticking to default "seedlist.txt"
+oName = "seedlist.txt"
+
+
 
 # open the list from file specified and ignore the \n at the end
 with open(inputFileName) as f:          # open the list from file specified and ignore the \n at the end
     wordlist = f.read().splitlines()
 # Note, if the text file has 2 words on one line it will treat it as one, eg "hello world" is 1 item, but with a delimiter (,) as on 1 line "hello", "world" is 2 items.
-f.close()   ## Save RAM, close the file!
+f.close()   ## Save RAM, close the file! 
 
 ## ## ## STEP 2: PERMUTE the wordlist ## ## ## -----------------------------------------------
 print ("Calculating....\n")
@@ -101,7 +110,27 @@ while int(permuteLengthMin+loopz)<= int(permuteLengthMax):
     print("Calculation of permutation of length:",int(permuteLengthMin+loopz), f", in {toc - tic:0.4f} seconds")   # the 0.4f means 4 decimal places
     loopz = int(loopz + 1)   
 
-print ("\n" + " ,.-~*´¨¯¨`*·~-.¸-(FINISHED )-,.-~*´¨¯¨`*·~-.¸ \n")
-print ("           RESULTS in " + oName + "\n")
+print ("\t RESULTS in " + oName + "\n")
+
+
+## NOW ARCHIVE THE SEEDLIST.TXT FILE FOREVER
+fileToArchive = time.strftime("Date_%Y_%m_%d_@_Time_%Hh_%Mm_%Ss")
+print (fileToArchive)
+SeedlistArchive = "Seedlist_Archive_"
+fileToArchive2 = SeedlistArchive+fileToArchive+".txt"
+
+print (fileToArchive2)
+
+time.sleep(2)
+
+with open('seedlist.txt','r') as firstfile, open(fileToArchive2,'a+') as secondfile: 
+    # read content from first file 
+    for line in firstfile:         
+             # write content to second file 
+             secondfile.write(line) 
+
+# now move the file to archive
+newPath = shutil.move(fileToArchive2, 'archives')
+
 
       

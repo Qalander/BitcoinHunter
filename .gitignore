@@ -1,11 +1,12 @@
 # don't share (a) very large files (b) files with private keys or user created wordlists
-
+/archives
 btc_balance_sorted.csv
 addr_priv.txt
 addresses.txt
 FREE_MONEY_KEYS.txt
 FREE_MONEY_KEYS_unique_results.txt
 seedlist.txt
+MyPersonalBitcoinAddress.txt
 1.csv
 2.csv
 3.csv

@@ -4,7 +4,9 @@
 # > python SeedHasher.py   # defaults to seedlist.txt for input
 
 # Printing to screen is time consuming - comment out prints if serious
-from bitcoin import privtopub, pubtoaddr, sha256       
+from bitcoin import privtopub, pubtoaddr, sha256   
+import time
+import shutil    
 
 number_of_lines = len(open('seedlist.txt').readlines())
 timerSecs = number_of_lines/8
@@ -44,3 +46,23 @@ with open("seedlist.txt", "r") as ourfile, open("addresses.txt", "a+") as adds, 
         #print ("_____________________________________________")
 
 ourfile.close()  # Close our txt file
+
+
+# Lets save the private addresses/keys so we never need to calc them again, into a folder called "/archives"
+fileToArchive = time.strftime("Date_%Y_%m_%d_@_Time_%Hh_%Mm_%Ss")
+print (fileToArchive)
+addr_priv_Archive = "addr_priv_Archive_"
+fileToArchive2 = addr_priv_Archive+fileToArchive+".txt"
+
+print (fileToArchive2)
+
+time.sleep(2)
+
+with open('addr_priv.txt','r') as firstfile, open(fileToArchive2,'a+') as secondfile: 
+    # read content from first file 
+    for line in firstfile:         
+             # write content to second file 
+             secondfile.write(line) 
+
+# now move the file to archive
+newPath = shutil.move(fileToArchive2, 'archives')
